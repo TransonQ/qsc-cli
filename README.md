@@ -95,3 +95,34 @@
    ```
 
    获取命令行指令成功
+
+#### 执行命令
+
+1. 创建`lib/create.js`
+
+   ```js
+   module.exports = async function (name, options) {
+     // 验证是否正常取到值
+     console.log('>>> create.js', name, options)
+   }
+   ```
+
+   `bin/cli.js`
+
+   ```js
+    .action((name, options) => {
+    // // 打印执行结果
+    // console.log('name:', name, 'options:', options)
+
+    // 在 create.js 中执行创建任务
+    require('../lib/create.js')(name, options)
+   })
+   ```
+
+2. 验证是否执行成功
+
+   ```bash
+   qsc create test001
+   # 出现下列提示:
+   >>> create.js test001 {}
+   ```
