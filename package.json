@@ -1,0 +1,18 @@
+{
+  "name": "qsc-cli",
+  "version": "1.0.0",
+  "description": "Generate project templates",
+  "main": "cli.js",
+  "bin": {
+    "zr": "./bin/cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "template",
+    "generator"
+  ],
+  "author": "Transon Quan",
+  "license": "ISC"
+}
