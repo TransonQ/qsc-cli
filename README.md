@@ -2,8 +2,6 @@
 
 ## 步骤
 
-### 创建命令
-
 #### 先预览简单效果
 
 1. `package.json`添加
@@ -126,3 +124,61 @@
    # 出现下列提示:
    >>> create.js test001 {}
    ```
+
+#### 检验准备创建的文件是否已存在
+
+```bash
+npm install fs-extra --save
+```
+
+`lib/create.js`
+
+```js
+const path = require('path')
+const fs = require('fs-extra')
+
+module.exports = async function (name, options) {
+  // 执行创建命令
+
+  // 当前命令行选择的目录
+  const cwd = process.cwd()
+  // 需要创建的目录地址
+  const targetAir = path.join(cwd, name)
+
+  // 目录是否已经存在？
+  if (fs.existsSync(targetAir)) {
+    // 是否为强制创建？
+    if (options.force) {
+      await fs.remove(targetAir)
+    } else {
+      // TODO：询问用户是否确定要覆盖
+    }
+  }
+}
+```
+
+#### 帮助信息
+
+```bash
+npm install chalk@4
+# chalk@5+ 是纯 ESM
+```
+
+`bin/cli.js`
+
+```js
+program
+  // 监听 --help 执行
+  .on('--help', () => {
+    // 新增说明信息
+    console.log(
+      `\r\nRun ${chalk.cyan(
+        `zr <command> --help`
+      )} for detailed usage of given command\r\n`
+    )
+  })
+```
+
+#### 参考
+
+- [《从 0 构建自己的脚手架/CLI 知识体系》 稀土掘金-IT 老班长](https://juejin.cn/post/6966119324478079007)
