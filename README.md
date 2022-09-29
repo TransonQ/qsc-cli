@@ -205,6 +205,70 @@ program.on('--help', () => {
 })
 ```
 
+#### 询问用户创建信息
+
+```bash
+npm install --save inquirer@^8.0.0
+```
+
+询问用户是否进行 Overwrite
+`lib/create.js`
+
+```js
+const path = require('path')
+
+// fs-extra 是对 fs 模块的扩展，支持 promise 语法
+const fs = require('fs-extra')
+const inquirer = require('inquirer')
+
+module.exports = async function (name, options) {
+  // 执行创建命令
+
+  // 当前命令行选择的目录
+  const cwd = process.cwd()
+  // 需要创建的目录地址
+  const targetAir = path.join(cwd, name)
+
+  // 目录是否已经存在？
+  if (fs.existsSync(targetAir)) {
+    // 是否为强制创建？
+    if (options.force) {
+      await fs.remove(targetAir)
+    } else {
+      // 询问用户是否确定要覆盖
+      let { action } = await inquirer.prompt([
+        {
+          name: 'action',
+          type: 'list',
+          message: 'Target directory already exists Pick an action:',
+          choices: [
+            {
+              name: 'Overwrite',
+              value: 'overwrite',
+            },
+            {
+              name: 'Cancel',
+              value: false,
+            },
+          ],
+        },
+      ])
+
+      if (!action) {
+        return
+      } else if (action === 'overwrite') {
+        // 移除已存在的目录
+        console.log(`\r\nRemoving...`)
+        await fs.remove(targetAir)
+      }
+    }
+  }
+}
+```
+
+- 在当前目录创建一个目录`test001`
+- 执行一下 `qsc create test001` -> test001 被删除
+
 #### 参考
 
 - [《从 0 构建自己的脚手架/CLI 知识体系》 稀土掘金-IT 老班长](https://juejin.cn/post/6966119324478079007)
