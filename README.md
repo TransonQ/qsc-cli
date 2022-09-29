@@ -269,6 +269,9 @@ module.exports = async function (name, options) {
 - 在当前目录创建一个目录`test001`
 - 执行一下 `qsc create test001` -> test001 被删除
 
+#### 下载远程模板
+
 #### 参考
 
 - [《从 0 构建自己的脚手架/CLI 知识体系》 稀土掘金-IT 老班长](https://juejin.cn/post/6966119324478079007)
+- [从 0 到 1 发布一个创建模板项目脚手架](https://shicc.vip/column/38)
